@@ -10,6 +10,7 @@ COPY . .
 RUN npm run build
 RUN npm prune --production
 
+# run stage
 FROM node:20-alpine as prod
 WORKDIR /app
 COPY --from=builder /app/build build/

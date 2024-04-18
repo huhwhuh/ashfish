@@ -2,6 +2,7 @@ services:
   app:
     build:
       context: .
+      dockerfile: ./docker/app/Dockerfile
       target: base
     command: npm run dev -- --host
     ports:
@@ -9,3 +10,22 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+  test-integration:
+    build:
+      context: .
+      dockerfile: ./docker/test/Dockerfile
+    command: npm run test:integration
+    tty: true
+  test-unit:
+    build:
+      context: .
+      dockerfile: ./docker/test/Dockerfile
+    command: npm run test:unit
+    tty: true
+  test:
+    build:
+      context: .
+      dockerfile: ./docker/test/Dockerfile
+    command: npm run test
+    tty: true
+
