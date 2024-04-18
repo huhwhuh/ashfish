@@ -1,6 +1,8 @@
-docker/
+docker
 .dockerignore
 .git
+.idea
+.github
 .gitignore
 .gitattributes
 README.md
