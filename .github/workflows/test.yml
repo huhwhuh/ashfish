@@ -7,7 +7,13 @@ jobs:
     name: Run test suite
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    - name: Run tests
-      run: docker compose up test
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Verify package-lock.json is up to date
+        run: npx --yes package-lock-utd@1.x.x
+      - name: Build docker container
+        run: docker compose build test
+      - name: Run linter
+        run: docker compose run test npm run lint
+      - name: Run tests
+        run: docker compose run test npm run test

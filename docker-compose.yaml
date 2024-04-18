@@ -28,4 +28,3 @@ services:
       dockerfile: ./docker/test/Dockerfile
     command: npm run test
     tty: true
-
