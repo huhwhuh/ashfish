@@ -10,4 +10,4 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     - name: Run tests
-      uses: docker compose up test
+      run: docker compose up test
