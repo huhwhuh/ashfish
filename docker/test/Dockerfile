@@ -2,6 +2,8 @@
 FROM node:20-alpine
 FROM mcr.microsoft.com/playwright:focal
 
+ENV FORCE_COLOR=true
+
 WORKDIR /app
 COPY package*.json .
 RUN npm ci
