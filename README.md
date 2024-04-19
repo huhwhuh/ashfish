@@ -4,17 +4,17 @@ Mac:
 
 1. Make sure brew is installed
 2. Install Docker desktop
-   ```zsh
+   ```bash
      brew install --cask docker
    ```
 3. Install node-20
-   ```zsh
+   ```bash
      brew install node@20
    ```
 
 ## Development
 
-```zsh
+```bash
 # Runs development server and unit tests in watch mode
 docker compose up --build dev test:watch
 
@@ -24,17 +24,17 @@ docker compose down
 
 ### Tests
 
-```zsh
+```bash
 # to run unit and integration tests
 docker compose run --build --rm test
 ```
 
-```zsh
+```bash
 # to run just unit tests
-docker compose run --build --rm dev npm run test:unit
+docker compose run --build --rm test npm run test:unit
 ```
 
-```zsh
+```bash
 # to run just integration tests
 docker compose run --build --rm test npm run test:integ
 ```
