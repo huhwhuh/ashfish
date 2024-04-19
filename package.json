@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",
+		"clean": "rm -rf node_modules build .svelte-kit",
 		"build": "vite build",
 		"preview": "vite preview",
 		"test": "npm run test:unit && npm run test:integration",
@@ -11,8 +12,14 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest run"
+		"test:unit": "vitest run",
+		"prepare": "svelte-kit sync"
 	},
+	"pre-commit": [
+		"format",
+		"lint",
+		"test:unit"
+	],
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
 		"@neoconfetti/svelte": "^1.0.0",
@@ -36,5 +43,8 @@
 		"vite": "^5.0.3",
 		"vitest": "^1.2.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"pre-commit": "^1.2.2"
+	}
 }
