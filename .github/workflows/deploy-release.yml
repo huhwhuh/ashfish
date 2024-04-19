@@ -1,9 +1,8 @@
 name: Release Deployment
 on:
-  push: {
+  push:
     branches:
       - release
-  }
 jobs:
   lint:
     name: Check Linter

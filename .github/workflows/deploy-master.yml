@@ -1,9 +1,8 @@
 name: Master Deployment
 on:
-  push: {
+  push:
     branches:
       - master
-  }
 jobs:
   lint:
     name: Check Linter
