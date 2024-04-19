@@ -37,6 +37,7 @@ jobs:
         uses: docker/bake-action@v4
         with:
           targets: test
+          load: true
 
       - name: Run Unit Tests
         run: docker compose run --rm test npm run test:unit
