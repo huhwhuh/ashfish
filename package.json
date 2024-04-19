@@ -10,9 +10,10 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write .",
-		"test:integration": "playwright test",
+		"format": "prettier --write . | grep -v \"(unchanged)\" | xargs",
+		"test:integ": "playwright test",
 		"test:unit": "vitest run",
+		"test:watch": "vitest",
 		"prepare": "svelte-kit sync"
 	},
 	"pre-commit": [
@@ -23,7 +24,7 @@
 	"devDependencies": {
 		"@fontsource/fira-mono": "^4.5.10",
 		"@neoconfetti/svelte": "^1.0.0",
-		"@playwright/test": "^1.43.1",
+		"@playwright/test": "1.43.0",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-node": "^5.0.1",
 		"@sveltejs/kit": "^2.0.0",

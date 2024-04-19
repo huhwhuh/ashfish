@@ -1,12 +1,13 @@
 # base stage
 FROM node:20-alpine
-FROM mcr.microsoft.com/playwright:focal
+FROM mcr.microsoft.com/playwright:focal AS base
 
 ENV FORCE_COLOR=true
 WORKDIR /app
 COPY package*.json .
+COPY svelte.config.js .
 RUN npm ci
-RUN npx -y playwright@1.43.1 install --with-deps chromium
 
+FROM base AS test
+WORKDIR /app
 COPY . .
-RUN npm run check

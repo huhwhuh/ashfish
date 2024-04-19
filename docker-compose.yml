@@ -13,6 +13,25 @@ services:
   test:
     build:
       context: .
-      dockerfile: ./docker/test/Dockerfile
+      dockerfile: ./docker/app/Dockerfile
+      target: test
     command: npm run test
     tty: true
+  test-watch:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+      target: base
+    command: npm run test:watch
+    volumes:
+      - .:/app
+      - /app/node_modules
+    tty: true
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+      target: prod
+    command: node build
+    ports:
+      - 3000:3000
