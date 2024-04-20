@@ -3,7 +3,7 @@ on:
   pull_request:
     branches:
       - master
-      - release
+      - develop
 jobs:
   lint:
     name: Check Linter
