@@ -4,24 +4,6 @@ on:
     branches:
       - master
 jobs:
-  login:
-    name: Login to Google Cloud
-    runs-on: ubuntu-latest
-    steps:
-      - name: Login to Google Cloud
-        uses: google-github-actions/auth@v2
-        id: auth
-        with:
-          workload_identity_provider: 'projects/242533372250/locations/global/workloadIdentityPools/github-actions-pool/providers/ashfish-github-oidc '
-          service_account: '242533372250-compute@developer.gserviceaccount.com'
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: us-central1-docker.pkg.dev
-          username: oauth2accesstoken
-          password: ${{ steps.auth.outputs.access_token }}
-
   lint:
     name: Check Linter
     runs-on: ubuntu-latest
@@ -43,7 +25,6 @@ jobs:
     name: Run Testing Suite
     needs:
       - lint
-      - login
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -93,10 +74,12 @@ jobs:
         uses: google-github-actions/auth@v2
         id: auth
         with:
-          workload_identity_provider: 'projects/242533372250/locations/global/workloadIdentityPools/github-actions-pool/providers/ashfish-github-oidc '
+          project_id: 'ashfish'
+          token_format: access_token
           service_account: '242533372250-compute@developer.gserviceaccount.com'
+          workload_identity_provider: 'projects/242533372250/locations/global/workloadIdentityPools/github-actions-pool/providers/ashfish-github-oidc '
 
-      - name: Login to GitHub Container Registry
+      - name: Login to GAR
         uses: docker/login-action@v3
         with:
           registry: us-central1-docker.pkg.dev
