@@ -44,6 +44,8 @@ jobs:
     name: Run Testing Suite
     needs: lint
     runs-on: ubuntu-latest
+    env:
+      FORCE_COLOR: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
