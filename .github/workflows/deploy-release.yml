@@ -1,11 +1,11 @@
-name: Master Deployment
+name: Release Deployment
 on:
   push:
     branches:
       - release
 jobs:
   semver:
-    name: Determine Semantic Versioning
+    name: Determine SemVer
     runs-on: ubuntu-latest
     outputs:
       version: ${{steps.semver.outputs.version}}
@@ -23,7 +23,7 @@ jobs:
           tag_prefix: v
           major_pattern: (MAJOR)
           minor_pattern: (MINOR)
-          version_format: ${major}.${minor}.${patch}-release-${increment}
+          version_format: ${major}.${minor}.${patch}
   lint:
     name: Check Linter
     runs-on: ubuntu-latest
@@ -69,13 +69,13 @@ jobs:
       - tests
       - semver
     runs-on: ubuntu-latest
-    environment: stage
+    environment: release
     env:
       PROJECT_ID: ${{vars.PROJECT_ID}}
       REPO_NAME: ${{vars.REPO_NAME}}
       IMAGE_NAME: ${{vars.IMAGE_NAME}}
       REGION: ${{vars.REGION}}
-      TAG: release-${{needs.semver.outputs.version}}
+      TAG: ${{needs.semver.outputs.version}}-release
     permissions:
       contents: read
       id-token: write

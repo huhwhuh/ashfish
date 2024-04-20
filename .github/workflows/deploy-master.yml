@@ -5,7 +5,7 @@ on:
       - master
 jobs:
   semver:
-    name: Determine Semantic Versioning
+    name: Determine SemVer
     runs-on: ubuntu-latest
     outputs:
       version: ${{steps.semver.outputs.version}}
@@ -75,7 +75,7 @@ jobs:
       REPO_NAME: ${{vars.REPO_NAME}}
       IMAGE_NAME: ${{vars.IMAGE_NAME}}
       REGION: ${{vars.REGION}}
-      TAG: master-${{needs.semver.outputs.version}}
+      TAG: ${{needs.semver.outputs.version}}
     permissions:
       contents: read
       id-token: write
