@@ -51,7 +51,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          depth: 0
+          fetch-depth: 0
 
       - name: Determine Git Semantic Version
         id: semver
@@ -76,6 +76,7 @@ jobs:
         uses: docker/bake-action@v4
         with:
           targets: app
+          push: true
         env:
           TAG: ${{steps.semver.outputs.version}}
 
