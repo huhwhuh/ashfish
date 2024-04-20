@@ -49,6 +49,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+      contents: read
+      id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -67,8 +69,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Login to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: 'projects/242533372250/locations/global/workloadIdentityPools/github-actions-pool/providers/ashfish-github-oidc '
+          service_account: '242533372250-compute@developer.gserviceaccount.com'
+
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v3d
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -81,6 +89,13 @@ jobs:
           push: true
         env:
           TAG: ${{steps.semver.outputs.version}}
+
+      - name: Deploy to Google Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        id: deploy
+        with:
+          service: 'ashfish'
+          image: 'gcr.io/huhwhuh/ashfish:${{steps.semver.outputs.version}}'
 
       - name: Fake push to registry
         run: echo "Successfully fake deployed to container registry!"
