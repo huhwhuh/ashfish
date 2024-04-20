@@ -22,7 +22,6 @@ jobs:
         with:
           version_format: ${major}.${minor}.${patch}-${increment}
           search_commit_body: true
-          version_from_branch: true
 
   lint:
     name: Check Linter
