@@ -28,7 +28,7 @@ services:
       - /app/node_modules
     tty: true
   app:
-    image: 'us-central1-docker.pkg.dev/huhwhuh/ashfish:${TAG}'
+    image: 'us-central1-docker.pkg.dev/ashfish/huhwhuh/ashfish:${TAG}'
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile
