@@ -24,6 +24,7 @@ jobs:
           major_pattern: (MAJOR)
           minor_pattern: (MINOR)
           version_format: ${major}.${minor}.${patch}
+          search_commit_body: true
   lint:
     name: Check Linter
     runs-on: ubuntu-latest
