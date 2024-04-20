@@ -4,52 +4,57 @@ on:
     branches:
       - master
 jobs:
-#  lint:
-#    name: Check Linter
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#
-#      - name: Setup Node
-#        uses: actions/setup-node@v4
-#        with:
-#          node-version: 20
-#
-#      - name: Install Node.js dependencies
-#        run: npm ci
-#
-#      - name: Run linter
-#        run: npm run lint
-#  tests:
-#    name: Run Testing Suite
-#    needs:
-##      - lint
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-#
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v3
-#
-#      - name: Build Docker Image
-#        uses: docker/bake-action@v4
-#        with:
-#          targets: test
-#          load: true
-#
-#      - name: Run Unit Tests
-#        run: docker compose run --rm test npm run test:unit
-#
-#      - name: Run Integration Tests
-#        run: docker compose run --rm test npm run test:integ
+  lint:
+    name: Check Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Run linter
+        run: npm run lint
+  tests:
+    name: Run Testing Suite
+    needs:
+      - lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image
+        uses: docker/bake-action@v4
+        with:
+          targets: test
+          load: true
+
+      - name: Run Unit Tests
+        run: docker compose run --rm test npm run test:unit
+
+      - name: Run Integration Tests
+        run: docker compose run --rm test npm run test:integ
   deploy:
     name: Run Deployment
-#    needs: lint
+    needs: tests
     runs-on: ubuntu-latest
+    environment: production
+    env:
+      PROJECT_ID: ${{vars.PROJECT_ID}}
+      REPO_NAME: ${{vars.REPO_NAME}}
+      IMAGE_NAME: ${{vars.IMAGE_NAME}}
+      GAR_REGION: ${{vars.GAR_REGION}}
     permissions:
-      packages: write
       contents: read
       id-token: write
     steps:
@@ -57,6 +62,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Determine Git Semantic Version
         id: semver
@@ -67,6 +73,7 @@ jobs:
           minor_pattern: "(MINOR)"
           version_format: "${major}.${minor}.${patch}"
 
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -74,7 +81,7 @@ jobs:
         uses: google-github-actions/auth@v2
         id: auth
         with:
-          project_id: 'ashfish'
+          project_id: ${{env.PROJECT_ID}}
           token_format: access_token
           service_account: '242533372250-compute@developer.gserviceaccount.com'
           workload_identity_provider: 'projects/242533372250/locations/global/workloadIdentityPools/github-actions-pool/providers/ashfish-github-oidc '
@@ -86,7 +93,7 @@ jobs:
           username: oauth2accesstoken
           password: ${{ steps.auth.outputs.access_token }}
 
-      - name: Build Docker Image
+      - name: Build Docker Image and Push to GAR
         uses: docker/bake-action@v4
         with:
           targets: app
@@ -98,8 +105,5 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@v2
         id: deploy
         with:
-          service: 'ashfish'
-          image: 'us-central1-docker.pkg.dev/ashfish/huhwhuh/ashfish:${{steps.semver.outputs.version}}'
-
-      - name: Fake push to registry
-        run: echo "Successfully fake deployed to container registry!"
+          service: ${{env.IMAGE_NAME}}
+          image: '${{vars.REGION}}-docker.pkg.dev/${{vars.PROJECT_ID}}/${{vars.REPO_NAME}}/${{vars.IMAGE_NAME}}:${{steps.semver.outputs.version}}'
