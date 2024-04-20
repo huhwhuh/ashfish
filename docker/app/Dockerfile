@@ -1,17 +1,13 @@
 # base stage. Contains all dev-dependencies
-FROM node:20-alpine
-FROM mcr.microsoft.com/playwright:v1.43.1-focal AS base
+FROM node:20-alpine AS base
 WORKDIR /app
 COPY package*.json .
 COPY svelte.config.js .
 RUN npm ci
 
-# test stage. Contains all source files
-FROM base AS test
-COPY . .
-
 # Contains only production build output
-FROM test AS build
+FROM base AS build
+COPY . .
 RUN npm run build
 RUN npm prune --production
 

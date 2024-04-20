@@ -9,5 +9,4 @@ COPY svelte.config.js .
 RUN npm ci
 
 FROM base AS test
-WORKDIR /app
 COPY . .
