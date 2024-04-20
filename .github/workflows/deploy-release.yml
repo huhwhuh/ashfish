@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - release/**
+      - hotfix/**
 jobs:
   semver:
     name: Determine SemVer
