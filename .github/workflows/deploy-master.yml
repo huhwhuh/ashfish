@@ -71,16 +71,17 @@ jobs:
 
       - name: Login to Google Cloud
         uses: google-github-actions/auth@v2
+        id: auth
         with:
           workload_identity_provider: 'projects/242533372250/locations/global/workloadIdentityPools/github-actions-pool/providers/ashfish-github-oidc '
           service_account: '242533372250-compute@developer.gserviceaccount.com'
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3d
+        uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: gcr.io
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
 
       - name: Build Docker Image
         uses: docker/bake-action@v4
