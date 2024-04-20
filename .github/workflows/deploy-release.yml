@@ -2,7 +2,7 @@ name: Release Deployment
 on:
   push:
     branches:
-      - release
+      - release/**
 jobs:
   semver:
     name: Determine SemVer

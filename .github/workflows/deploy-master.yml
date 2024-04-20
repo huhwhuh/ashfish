@@ -20,7 +20,7 @@ jobs:
         id: semver
         uses: PaulHatch/semantic-version@v5.4.0
         with:
-          version_format: ${major}.${minor}.${patch}
+          version_format: ${major}.${minor}.${patch}-${increment}
           search_commit_body: true
   lint:
     name: Check Linter
