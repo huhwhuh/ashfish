@@ -4,13 +4,12 @@ on:
     branches:
       - master
 jobs:
-  lint:
-    name: Check Linter
+  semver:
+    name: Determine Semantic Versioning
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{steps.semver.outputs.version}}
     steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v4
-
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -26,6 +25,12 @@ jobs:
           minor_pattern: (MINOR)
           version_format: ${major}.${minor}.${patch}+${increment}
           debug: true
+  lint:
+    name: Check Linter
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -39,8 +44,7 @@ jobs:
         run: npm run lint
   tests:
     name: Run Testing Suite
-    needs:
-      - lint
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -62,7 +66,9 @@ jobs:
         run: docker compose run --rm test npm run test:integ
   deploy:
     name: Run Deployment
-    needs: tests
+    needs:
+      - tests
+      - semver
     runs-on: ubuntu-latest
     environment: production
     env:
@@ -70,24 +76,13 @@ jobs:
       REPO_NAME: ${{vars.REPO_NAME}}
       IMAGE_NAME: ${{vars.IMAGE_NAME}}
       REGION: ${{vars.REGION}}
+      TAG: ${{needs.semver.outputs.version}}
     permissions:
       contents: read
       id-token: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          fetch-tags: true
-
-      - name: Determine Git Semantic Version
-        id: semver
-        uses: PaulHatch/semantic-version@v5.4.0
-        with:
-          tag_prefix: v
-          major_pattern: (MAJOR)
-          minor_pattern: (MINOR)
-          version_format: ${major}.${minor}.${patch}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -113,12 +108,10 @@ jobs:
         with:
           targets: app
           push: true
-        env:
-          TAG: ${{steps.semver.outputs.version}}
 
       - name: Deploy to Google Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         id: deploy
         with:
           service: ${{env.IMAGE_NAME}}
-          image: '${{env.REGION}}-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.REPO_NAME}}/${{env.IMAGE_NAME}}:${{steps.semver.outputs.version}}'
+          image: '${{env.REGION}}-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.REPO_NAME}}/${{env.IMAGE_NAME}}:${{env.TAG}}'
