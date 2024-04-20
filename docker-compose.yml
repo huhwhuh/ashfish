@@ -13,14 +13,14 @@ services:
   test:
     build:
       context: .
-      dockerfile: ./docker/app/Dockerfile
+      dockerfile: ./docker/test/Dockerfile
       target: test
     command: npm run test
     tty: true
   test-watch:
     build:
       context: .
-      dockerfile: ./docker/app/Dockerfile
+      dockerfile: ./docker/test/Dockerfile
       target: base
     command: npm run test:watch
     volumes:
