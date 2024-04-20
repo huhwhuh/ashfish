@@ -13,6 +13,7 @@ Mac:
    ```
 
 ## Development
+
 ```bash
 # Runs development server and unit tests in watch mode
 docker compose up --build dev test:watch
