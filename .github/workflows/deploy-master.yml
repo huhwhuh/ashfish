@@ -46,7 +46,7 @@ jobs:
         run: docker compose run --rm test npm run test:integ
   deploy:
     name: Run Deployment
-    needs: tests
+    needs: lint
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -99,7 +99,7 @@ jobs:
         id: deploy
         with:
           service: 'ashfish'
-          image: 'gcr.io/huhwhuh/ashfish:${{steps.semver.outputs.version}}'
+          image: 'us-central1-docker.pkg.dev/huhwhuh/ashfish:${{steps.semver.outputs.version}}'
 
       - name: Fake push to registry
         run: echo "Successfully fake deployed to container registry!"
