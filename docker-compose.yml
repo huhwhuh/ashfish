@@ -28,7 +28,7 @@ services:
       - /app/node_modules
     tty: true
   app:
-    image: '${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE_NAME}:${TAG}'
+    image: '${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${STAGE}/${IMAGE_NAME}:${VERSION}'
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile

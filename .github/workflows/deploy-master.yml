@@ -75,7 +75,8 @@ jobs:
       REPO_NAME: ${{vars.REPO_NAME}}
       IMAGE_NAME: ${{vars.IMAGE_NAME}}
       REGION: ${{vars.REGION}}
-      TAG: ${{needs.semver.outputs.version}}
+      STAGE: ${{vars.STAGE}}
+      VERSION: ${{needs.semver.outputs.version}}
     permissions:
       contents: read
       id-token: write
@@ -112,5 +113,5 @@ jobs:
         uses: google-github-actions/deploy-cloudrun@v2
         id: deploy
         with:
-          service: ashfish
-          image: '${{env.REGION}}-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.REPO_NAME}}/${{env.IMAGE_NAME}}:${{env.TAG}}'
+          service: ${{env.IMAGE_NAME}}-${{env.STAGE}}
+          image: '${{env.REGION}}-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.REPO_NAME}}/${{env.STAGE}}/${{env.IMAGE_NAME}}:${{env.VERSION}}'
