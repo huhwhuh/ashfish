@@ -15,27 +15,44 @@ Mac:
 
 ## Development
 
-```bash
-# Runs development server and unit tests in watch mode
-docker compose up --build dev test:watch
+Before committing, you will need to make sure the code is formatted correctly.
 
-# stops and deletes generated docker containers
+- You will not be able to commit if code style checks or any unit tests fail.
+  You can bypass this by using the `-n` flag when committing, but it will fail in the PR stage.
+
+```bash
+npm run format
+```
+
+Runs dev server and unit tests in watch mode
+
+```bash
+docker compose up --build dev test-watch
+docker compose down
+```
+
+Stop and remove all containers
+
+```bash
 docker compose down
 ```
 
 ### Tests
 
+To run unit and integration tests
+
 ```bash
-# to run unit and integration tests
 docker compose run --build --rm test
 ```
 
+To run just unit tests
+
 ```bash
-# to run just unit tests
 docker compose run --build --rm test npm run test:unit
 ```
 
+To run just integration tests
+
 ```bash
-# to run just integration tests
 docker compose run --build --rm test npm run test:integ
 ```
