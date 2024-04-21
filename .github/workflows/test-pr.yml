@@ -31,17 +31,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build Docker Image
-        uses: docker/bake-action@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          targets: test
-          load: true
+          node-version: 20
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - name: Run Unit Tests
-        run: docker compose run --rm test npm run test:unit
+        run: npm run test:unit
 
       - name: Run Integration Tests
-        run: docker compose run --rm test npm run test:integ
+        run: npm run test:integ
