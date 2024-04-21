@@ -3,11 +3,12 @@
 Mac:
 
 1. Make sure brew is installed
-2. Install [Docker Compose](https://docs.docker.com/compose/install/)
+2. Install Docker
    ```bash
      brew install --cask docker
    ```
-3. Install node-20
+3. Open up docker desktop app and hit the agreement
+4. Install node-20
    ```bash
      brew install node@20
    ```
