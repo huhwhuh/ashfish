@@ -18,5 +18,5 @@ WORKDIR /app
 COPY --from=build /app/build build/
 COPY --from=build /app/node_modules node_modules/
 COPY package.json .
-EXPOSE 3000
+# The server will listen on environment variable $PORT by default
 CMD [ "node", "build" ]
