@@ -3,7 +3,7 @@ on:
   push:
     branches: [master]
 jobs:
-    merge-to-dev:
+    merge-to-develop:
       permissions: write-all
       runs-on: ubuntu-latest
       steps:
