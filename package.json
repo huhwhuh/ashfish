@@ -17,7 +17,6 @@
 		"prepare": "svelte-kit sync"
 	},
 	"pre-commit": [
-		"format",
 		"lint",
 		"test:unit"
 	],
