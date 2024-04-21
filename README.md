@@ -3,7 +3,7 @@
 Mac:
 
 1. Make sure brew is installed
-2. Install Docker desktop
+2. Install [Docker Compose](https://docs.docker.com/compose/install/)
    ```bash
      brew install --cask docker
    ```
