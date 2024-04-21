@@ -4,6 +4,7 @@ on:
     branches: [master]
 jobs:
     merge-to-dev:
+      permissions: write-all
       runs-on: ubuntu-latest
       steps:
       - name: Checkout code
