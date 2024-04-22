@@ -16,4 +16,4 @@ jobs:
           type: now
           from_branch: master
           target_branch: develop
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT }}
