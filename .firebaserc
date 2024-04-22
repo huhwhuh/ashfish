@@ -1,0 +1,10 @@
+{
+  "projects": {
+    "prod": "ashfish-prod",
+    "release": "ashfish-release",
+    "dev": "ashfish-dev",
+    "default": "ashfish-dev"
+  },
+  "targets": {},
+  "etags": {}
+}
