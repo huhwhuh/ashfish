@@ -15,6 +15,12 @@ Mac:
 
 ## Development
 
+Switch to firebase dev environment:
+
+```bash
+docker compose run -v .:/home/node --rm firebase firebase use dev
+```
+
 Before committing, you will need to make sure the code is formatted correctly.
 
 - You will not be able to commit if code style checks or any unit tests fail.
