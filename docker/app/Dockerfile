@@ -2,7 +2,7 @@
 FROM node:20-alpine AS base
 WORKDIR /app
 COPY package*.json .
-COPY svelte.config.js .
+COPY *.config.js .
 RUN npm ci
 
 # Contains only production build output
