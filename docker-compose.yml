@@ -32,7 +32,7 @@ services:
     container_name: firebase
     image: andreysenov/firebase-tools
     user: node
-    command: firebase emulators:start
+    command: firebase emulators:start --config docker-firebase.json
     ports:
       - 4000:4000
       - 4400:4400
