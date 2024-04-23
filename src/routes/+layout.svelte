@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
 	import Header from './Header.svelte';
-	import './styles.css';
 	import '../app.css';
+	import { ModeWatcher } from 'mode-watcher';
 </script>
+
+<ModeWatcher />
 
 <div class="flex flex-col min-h-screen">
 	<Header />

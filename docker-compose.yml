@@ -6,6 +6,7 @@ services:
       dockerfile: ./docker/test/Dockerfile
       target: base
     command: npm run dev -- --host
+    tty: true
     ports:
       - 5173:5173
     volumes:
