@@ -12,6 +12,8 @@ Mac:
    ```bash
      brew install node@20
    ```
+5. Make a .env file to streamline local development:
+   - Take a look at .env-sample
 
 ## Development
 
