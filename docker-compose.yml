@@ -35,6 +35,7 @@ services:
     command: firebase emulators:start
     ports:
       - 4000:4000
+      - 4400:4400
       - 4500:4500
       - 8080:8080
       - 8085:8085
