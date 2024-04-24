@@ -1,7 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from '@firebase/firestore';
-import { getAuth, onAuthStateChanged, signOut, type User } from '@firebase/auth';
+import { connectFirestoreEmulator, getFirestore } from '@firebase/firestore';
+import {
+	connectAuthEmulator,
+	getAuth,
+	onAuthStateChanged,
+	signOut,
+	type User
+} from '@firebase/auth';
 import { getStorage } from '@firebase/storage';
 import {
 	PUBLIC_FB_APIKEY,
@@ -9,7 +15,8 @@ import {
 	PUBLIC_FB_AUTHDOMAIN,
 	PUBLIC_FB_DATABASEURL,
 	PUBLIC_FB_PROJECTID,
-	PUBLIC_FB_STORAGEBUCKET
+	PUBLIC_FB_STORAGEBUCKET,
+	PUBLIC_STAGE
 } from '$env/static/public';
 import { writable } from 'svelte/store';
 import { goto } from '$app/navigation';
@@ -25,12 +32,15 @@ const firebaseConfig = {
 	appId: PUBLIC_FB_APPID
 };
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
-export const db = getFirestore();
-export const auth = getAuth();
+export const clientFirebaseApp = initializeApp(firebaseConfig);
+export const clientDB = getFirestore();
+export const clientAuth = getAuth();
 export const storage = getStorage();
-// connectFirestoreEmulator(db, 'firebase', 8080);
-// connectAuthEmulator(auth, 'http://localhost:9099');
+
+if (PUBLIC_STAGE === 'DEV') {
+	connectAuthEmulator(clientAuth, 'http://localhost:9099');
+	connectFirestoreEmulator(clientDB, 'localhost', 8080);
+}
 
 /**
  * @returns a store with the current firebase user
@@ -38,7 +48,7 @@ export const storage = getStorage();
 function userStore() {
 	let unsubscribe: () => void;
 
-	if (!auth || !globalThis.window) {
+	if (!clientAuth || !globalThis.window) {
 		console.warn('Auth is not initialized or not in browser');
 		const { subscribe } = writable<User | null>(null);
 		return {
@@ -46,8 +56,8 @@ function userStore() {
 		};
 	}
 
-	const { subscribe } = writable(auth?.currentUser ?? null, (set) => {
-		unsubscribe = onAuthStateChanged(auth, (user) => {
+	const { subscribe } = writable(clientAuth?.currentUser ?? null, (set) => {
+		unsubscribe = onAuthStateChanged(clientAuth, (user) => {
 			set(user);
 		});
 
@@ -61,7 +71,7 @@ function userStore() {
 
 export async function logout() {
 	await fetch('/api/auth/login', { method: 'DELETE' });
-	await signOut(auth);
+	await signOut(clientAuth);
 	await goto('/');
 }
 

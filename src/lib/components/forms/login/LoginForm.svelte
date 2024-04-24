@@ -8,7 +8,7 @@
 	import { loginSchema, type LoginSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { getIdToken, signInWithEmailAndPassword } from '@firebase/auth';
-	import { auth } from '$lib/firebase';
+	import { clientAuth } from '$lib/firebase';
 	import { goto } from '$app/navigation';
 	import { CircleAlert } from 'lucide-svelte';
 	import { FirebaseError } from '@firebase/app';
@@ -26,7 +26,7 @@
 			}
 			const { email, password } = form.data;
 			try {
-				const credential = await signInWithEmailAndPassword(auth, email, password);
+				const credential = await signInWithEmailAndPassword(clientAuth, email, password);
 				const idToken = await getIdToken(credential.user, true);
 				const res = await setSessionCookieByIDToken(idToken);
 				if (!res.ok) {
