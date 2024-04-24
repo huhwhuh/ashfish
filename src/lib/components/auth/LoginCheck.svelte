@@ -1,0 +1,15 @@
+<script lang="ts">
+	import { user } from '$lib/firebase';
+	import CircleAlert from 'lucide-svelte/icons/circle-alert';
+	import * as Alert from '$lib/components/ui/alert/index.js';
+</script>
+
+{#if $user}
+	<slot />
+{:else}
+	<Alert.Root variant="destructive">
+		<CircleAlert class="h-4 w-4" />
+		<Alert.Title>Unauthorized</Alert.Title>
+		<Alert.Description>You must be signed in to view this page!</Alert.Description>
+	</Alert.Root>
+{/if}
