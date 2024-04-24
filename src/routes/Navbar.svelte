@@ -23,11 +23,7 @@
 			</li>
 			<li>
 				{#if $user}
-					<Button
-						on:click={async () => await logout()}
-						variant="outline"
-						data-sveltekit-preload-data="hover">Logout</Button
-					>
+					<Button on:click={async () => await logout()} variant="outline">Logout</Button>
 				{:else}
 					<Button href="/login" variant="outline" data-sveltekit-preload-data="hover">Login</Button>
 				{/if}

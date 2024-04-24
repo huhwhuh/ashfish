@@ -4,13 +4,15 @@
 	import * as Alert from '$lib/components/ui/alert/index.js';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
-	import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
+	import { type Infer, setError, superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { loginSchema, type LoginSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { getIdToken, signInWithEmailAndPassword } from '@firebase/auth';
 	import { auth } from '$lib/firebase';
 	import { goto } from '$app/navigation';
 	import { CircleAlert } from 'lucide-svelte';
+	import { FirebaseError } from '@firebase/app';
+	import { setSessionCookieByIDToken } from '$lib/authutils';
 
 	export let ref: string = '/';
 	export let message: string;
@@ -26,21 +28,21 @@
 			try {
 				const credential = await signInWithEmailAndPassword(auth, email, password);
 				const idToken = await getIdToken(credential.user, true);
-				await fetch('/api/auth/login', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-						// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
-					},
-					body: JSON.stringify({ idToken })
-				});
-
+				const res = await setSessionCookieByIDToken(idToken);
+				if (!res.ok) {
+					throw res.body;
+				}
 				await goto(`/${ref.slice(1)}`);
 			} catch (err) {
-				if (!(err instanceof Error)) {
-					throw err;
+				if (err instanceof FirebaseError) {
+					if (err.code === 'auth/invalid-credential') {
+						setError(form, 'password', 'Invalid username and/or password!');
+					} else {
+						setError(form, 'password', err.message);
+					}
+				} else if (err instanceof String) {
+					setError(form, 'password', err);
 				}
-				console.log(err);
 			}
 		}
 	});
