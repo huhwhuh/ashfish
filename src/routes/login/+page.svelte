@@ -5,4 +5,4 @@
 	export let data: PageData;
 </script>
 
-<LoginForm data={data.form} />
+<LoginForm data={data.form} ref={data.ref} message={data.message} />

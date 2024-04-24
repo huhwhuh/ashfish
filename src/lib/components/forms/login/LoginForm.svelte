@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as Form from '$lib/components/ui/form';
+	import * as Alert from '$lib/components/ui/alert/index.js';
+	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { type Infer, superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { loginSchema, type LoginSchema } from './schema';
@@ -9,7 +10,10 @@
 	import { getIdToken, signInWithEmailAndPassword } from '@firebase/auth';
 	import { auth } from '$lib/firebase';
 	import { goto } from '$app/navigation';
+	import { CircleAlert } from 'lucide-svelte';
 
+	export let ref: string = '/';
+	export let message: string;
 	export let data: SuperValidated<Infer<LoginSchema>>;
 	const form = superForm(data, {
 		SPA: true,
@@ -31,8 +35,11 @@
 					body: JSON.stringify({ idToken })
 				});
 
-				await goto('/');
+				await goto(`/${ref.slice(1)}`);
 			} catch (err) {
+				if (!(err instanceof Error)) {
+					throw err;
+				}
 				console.log(err);
 			}
 		}
@@ -41,7 +48,16 @@
 	const { form: formData, enhance } = form;
 </script>
 
-<form method="POST" use:enhance>
+<form method="POST" use:enhance class="space-y-10">
+	{#if message}
+		<Alert.Root variant="destructive" class="mx-auto max-w-sm">
+			<CircleAlert class="h-4 w-4" />
+			<Alert.Title>Unauthorized</Alert.Title>
+			<Alert.Description>
+				{message}
+			</Alert.Description>
+		</Alert.Root>
+	{/if}
 	<Card.Root class="mx-auto max-w-sm">
 		<Card.Header>
 			<Card.Title class="text-2xl">Login</Card.Title>
