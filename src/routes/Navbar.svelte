@@ -5,6 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
 	import { logout, user } from '$lib/firebase';
+	import { page } from '$app/stores';
 </script>
 
 <header class="w-screen">
@@ -33,13 +34,17 @@
 		<nav class="min-h-10 items-center py-1">
 			<ul class="flex flex-row justify-end space-x-5">
 				<li>
-					<Button href="/" variant="ghost">Home</Button>
+					<Button href="/" variant={$page.route.id === '/' ? 'secondary' : 'ghost'}>Home</Button>
 				</li>
 				<li>
-					<Button href="/chat" variant="ghost">Chat</Button>
+					<Button href="/chat" variant={$page.route.id === '/chat' ? 'secondary' : 'ghost'}
+						>Chat</Button
+					>
 				</li>
 				<li>
-					<Button href="/profile" variant="ghost">Profile</Button>
+					<Button href="/profile" variant={$page.route.id === '/profile' ? 'secondary' : 'ghost'}
+						>Profile</Button
+					>
 				</li>
 			</ul>
 		</nav>
