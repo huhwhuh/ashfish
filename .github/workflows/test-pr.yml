@@ -26,11 +26,23 @@ jobs:
     name: Run Testing Suite
     needs: lint
     runs-on: ubuntu-latest
+    environment: development
     env:
       FORCE_COLOR: true
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - uses: oNaiPs/secrets-to-env-action@v1.5
+        with:
+          secrets: ${{ toJSON(vars) }}
+
+      - uses: oNaiPs/secrets-to-env-action@v1.5
+        with:
+          secrets: ${{ toJSON(secrets) }}
+
+      - name: Spin up Firebase Emulators
+        run: docker compose up --build firebase
 
       - name: Setup Node
         uses: actions/setup-node@v4
