@@ -5,7 +5,7 @@ export function handleLoginRedirect(
 	message: string = 'You must be logged in to view this page!'
 ) {
 	const fromUrl = event.url.pathname + event.url.search;
-	return `/login?ref=${fromUrl}&message=${message}`;
+	return `/login?ref=${encodeURIComponent(fromUrl)}&message=${encodeURIComponent(message)}`;
 }
 
 export async function setSessionCookieByIDToken(idToken: string) {
