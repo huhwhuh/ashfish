@@ -12,6 +12,7 @@ import {
 	PUBLIC_FB_STORAGEBUCKET
 } from '$env/static/public';
 import { writable } from 'svelte/store';
+import { goto } from '$app/navigation';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -61,6 +62,7 @@ function userStore() {
 export async function logout() {
 	await fetch('/api/auth/login', { method: 'DELETE' });
 	await signOut(auth);
+	await goto('/');
 }
 
 export const user = userStore();

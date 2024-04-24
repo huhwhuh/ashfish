@@ -20,6 +20,14 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 };
 
 export const DELETE: RequestHandler = async ({ cookies }) => {
-	cookies.delete('__session', { path: '/' });
-	return json({ status: 'loggedOut' });
+	const sessionCookie = cookies.get('__session') || '';
+
+	try {
+		cookies.delete('__session', { path: '/' });
+		const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie);
+		await adminAuth.revokeRefreshTokens(decodedClaims.sub);
+		return json({ status: 'loggedOut' });
+	} catch (err) {
+		return json({ status: 'loggedOut' });
+	}
 };
