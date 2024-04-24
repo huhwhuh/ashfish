@@ -29,6 +29,10 @@
 				<Label for="password">Password</Label>
 				<Input id="password" type="password" />
 			</div>
+			<div class="grid gap-2">
+				<Label for="confirm">Confirm Password</Label>
+				<Input id="confirm" type="password" />
+			</div>
 			<Button type="submit" class="w-full">Create an account</Button>
 		</div>
 		<div class="mt-4 text-center text-sm">
