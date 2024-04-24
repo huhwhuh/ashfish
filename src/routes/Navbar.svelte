@@ -9,7 +9,7 @@
 </script>
 
 <header class="w-screen">
-	<span class="flex flex-row items-center pl-2 space-x-2">
+	<div class="flex flex-row items-center pl-2 space-x-2">
 		<ul class="flex flex-row space-x-2">
 			<li>
 				<Button on:click={toggleMode} variant="outline" size="icon">
@@ -38,16 +38,16 @@
 				</li>
 				<li>
 					<Button href="/chat" variant={$page.route.id === '/chat' ? 'secondary' : 'ghost'}
-						>Chat</Button
-					>
+						>Chat
+					</Button>
 				</li>
 				<li>
 					<Button href="/profile" variant={$page.route.id === '/profile' ? 'secondary' : 'ghost'}
-						>Profile</Button
-					>
+						>Profile
+					</Button>
 				</li>
 			</ul>
 		</nav>
-	</span>
+	</div>
 	<Separator />
 </header>
