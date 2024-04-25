@@ -5,4 +5,4 @@
 	// export let data: PageData;
 </script>
 
-<LoginCheck>Protected profile area!</LoginCheck>
+<LoginCheck>Protected chat area!</LoginCheck>

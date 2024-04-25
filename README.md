@@ -17,26 +17,25 @@ Mac:
 
 ## Development
 
-Switch to firebase dev environment:
+Export Firebase emulator configs (While emulators are running)
 
 ```bash
-docker compose run -v .:/home/node --rm firebase firebase use dev
+docker exec -it firebase firebase emulators:export ./firebase/export
 ```
 
 Before committing, you will need to make sure the code is formatted correctly.
-
-- You will not be able to commit if code style checks or any unit tests fail.
-  You can bypass this by using the `-n` flag when committing, but it will fail in the PR stage.
 
 ```bash
 npm run format
 ```
 
-Runs dev server and unit tests in watch mode
+- You will not be able to commit if code style checks or any unit tests fail.
+  You can bypass this by using the `-n` flag when committing, but incorrectly formatteed code will fail PR's
+
+Runs dev server, firebase, and unit tests in watch mode
 
 ```bash
 docker compose up --build dev test-watch
-docker compose down
 ```
 
 Stop and remove all containers

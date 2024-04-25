@@ -1,11 +1,14 @@
 services:
   dev:
     depends_on: [firebase]
+    container_name: ashfish-dev
     build:
       context: .
       dockerfile: ./docker/test/Dockerfile
       target: base
     command: npm run dev -- --host
+    environment:
+      - FIREBASE_AUTH_EMULATOR_HOST=firebase:9099
     tty: true
     ports:
       - 5173:5173
@@ -13,18 +16,24 @@ services:
       - .:/app
       - node_modules:/app/node_modules
   test:
+    depends_on: [firebase]
     build:
       context: .
       dockerfile: ./docker/test/Dockerfile
       target: test
     command: npm run test
+    environment:
+      - FIREBASE_AUTH_EMULATOR_HOST=firebase:9099
     tty: true
   test-watch:
+    depends_on: [firebase]
     build:
       context: .
       dockerfile: ./docker/test/Dockerfile
       target: base
     command: npm run test:watch
+    environment:
+      - FIREBASE_AUTH_EMULATOR_HOST=firebase:9099
     volumes:
       - .:/app
       - node_modules:/app/node_modules
@@ -33,7 +42,7 @@ services:
     container_name: firebase
     image: andreysenov/firebase-tools
     user: node
-    command: firebase emulators:start --config docker-firebase.json
+    command: firebase emulators:start --project=${FB_PROJECT_ID} --config docker-firebase.json --import=./firebase/export
     ports:
       - 4000:4000
       - 4400:4400
