@@ -1,14 +1,14 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { connectFirestoreEmulator, getFirestore } from '@firebase/firestore';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import {
 	connectAuthEmulator,
 	getAuth,
 	onAuthStateChanged,
 	signOut,
 	type User
-} from '@firebase/auth';
-import { getStorage } from '@firebase/storage';
+} from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 import {
 	PUBLIC_FB_APIKEY,
 	PUBLIC_FB_APPID,

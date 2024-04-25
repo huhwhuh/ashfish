@@ -1,17 +1,17 @@
 <script lang="ts">
 	import * as Card from '$lib/components/ui/card';
 	import * as Form from '$lib/components/ui/form';
-	import * as Alert from '$lib/components/ui/alert/index.js';
+	import * as Alert from '$lib/components/ui/alert';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { type Infer, setError, superForm, type SuperValidated } from 'sveltekit-superforms';
 	import { loginSchema, type LoginSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
-	import { getIdToken, signInWithEmailAndPassword } from '@firebase/auth';
+	import { getIdToken, signInWithEmailAndPassword } from 'firebase/auth';
 	import { clientAuth } from '$lib/firebase';
 	import { goto } from '$app/navigation';
 	import { CircleAlert } from 'lucide-svelte';
-	import { FirebaseError } from '@firebase/app';
+	import { FirebaseError } from 'firebase/app';
 	import { setSessionCookieByIDToken } from '$lib/authutils';
 
 	export let ref: string = '/';
