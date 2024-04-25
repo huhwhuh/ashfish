@@ -46,6 +46,14 @@ docker compose down
 
 ### Tests
 
+Generate Integration tests:
+
+```bash
+npx playwright codegen localhost:5173
+```
+
+- make sure dev server and firebase emulator are running
+
 To run unit and integration tests
 
 ```bash
