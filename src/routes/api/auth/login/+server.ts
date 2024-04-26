@@ -1,7 +1,9 @@
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import { adminAuth } from '$lib/server/admin';
+import { initAdminFirebase } from '$lib/server/admin';
+import { invalidateAll } from '$app/navigation';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
+	const { adminAuth } = initAdminFirebase();
 	const { idToken } = await request.json();
 
 	const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
@@ -16,18 +18,20 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 	cookies.set('__session', cookie, options);
 
-	return json({ status: 'loggedIn' });
+	return json({ status: 'success' });
 };
 
 export const DELETE: RequestHandler = async ({ cookies }) => {
-	const sessionCookie = cookies.get('__session') || '';
+	const { adminAuth } = initAdminFirebase();
 
+	const sessionCookie = cookies.get('__session') || '';
 	try {
 		cookies.delete('__session', { path: '/' });
 		const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie);
 		await adminAuth.revokeRefreshTokens(decodedClaims.sub);
-		return json({ status: 'loggedOut' });
+		await invalidateAll();
+		return json({ status: 'success' });
 	} catch (err) {
-		return json({ status: 'loggedOut' });
+		return json({ status: 'success' });
 	}
 };

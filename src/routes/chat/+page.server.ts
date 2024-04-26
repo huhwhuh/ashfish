@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import { handleLoginRedirect } from '$lib/authutils';
 
 export const load = (async (event) => {
-	if (!event.locals.userID) {
+	if (!event.locals.user) {
 		throw redirect(302, handleLoginRedirect(event));
 	}
 }) satisfies PageServerLoad;
