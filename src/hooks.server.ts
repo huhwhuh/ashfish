@@ -1,15 +1,19 @@
-import { adminAuth } from '$lib/server/admin';
 import type { Handle } from '@sveltejs/kit';
+import { initAdminFirebase } from '$lib/server/admin';
 
 export const handle = (async ({ event, resolve }) => {
 	const sessionCookie = event.cookies.get('__session');
 
 	try {
-		const decodedClaims = await adminAuth.verifySessionCookie(sessionCookie!);
-		event.locals.userID = decodedClaims.uid;
-		console.log('found user id', decodedClaims.uid);
+		const { adminAuth } = initAdminFirebase();
+		const decodedToken = await adminAuth.verifySessionCookie(sessionCookie!);
+		const { uid, name, email } = decodedToken;
+		event.locals.user = { uid, name, email: email! };
+		console.log(decodedToken);
+		console.log('authenticated user', decodedToken.uid, 'trying to access', event.url.href);
 	} catch (e) {
-		event.locals.userID = null;
+		console.log('unauthenticated user trying to access', event.url.href);
+		event.locals.user = null;
 		return resolve(event);
 	}
 

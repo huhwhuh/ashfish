@@ -11,3 +11,4 @@ RUN npm ci
 FROM base AS test
 ENV FORCE_COLOR=true
 COPY . .
+RUN npm run check
