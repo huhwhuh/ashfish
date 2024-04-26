@@ -54,7 +54,7 @@ services:
     container_name: firebase
     image: andreysenov/firebase-tools
     user: node
-    command: firebase emulators:start --project=${FB_PROJECT_ID} --config docker-firebase.json --import=./firebase/export
+    command: firebase emulators:start --project=${FB_PROJECT_ID} --config docker-firebase.json --import=./firebase/export --export-on-exit ./firebase/export
     ports:
       - 4000:4000
       - 4400:4400

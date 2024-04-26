@@ -67,4 +67,4 @@ jobs:
       - name: Run Integration Tests against Emulator
         run: |
           npm install -g firebase-tools
-          firebase emulators:exec --project ${{secrets.FB_PROJECT_ID}} 'npm run test:integ'
+          firebase emulators:exec --project ${{secrets.FB_PROJECT_ID}} --import ./firebase/export 'npm run test:integ'
