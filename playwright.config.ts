@@ -5,7 +5,7 @@ export const USER_AUTH_PATH = 'tests/.auth/user.json';
 export const NO_AUTH_STATE = { storageState: { cookies: [], origins: [] } };
 const config: PlaywrightTestConfig = {
 	webServer: {
-		command: 'npm run start',
+		command: 'npm run build && npm run preview',
 		url: 'http://localhost:5173',
 		reuseExistingServer: !process.env.CI,
 		stdout: 'ignore',

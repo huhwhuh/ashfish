@@ -9,7 +9,6 @@ export const handle = (async ({ event, resolve }) => {
 		const decodedToken = await adminAuth.verifySessionCookie(sessionCookie!);
 		const { uid, name, email } = decodedToken;
 		event.locals.user = { uid, name, email: email! };
-		console.log(decodedToken);
 		console.log('authenticated user', decodedToken.uid, 'trying to access', event.url.href);
 	} catch (e) {
 		console.log('unauthenticated user trying to access', event.url.href);

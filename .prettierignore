@@ -4,3 +4,6 @@ package-lock.json
 yarn.lock
 .svelte-kit/
 .github/
+tests/.auth/
+firebase/
+firestore/
