@@ -317,3 +317,4 @@ Temporary Items
 .apdisk
 .config/
 test-results/
+tests/.auth/
