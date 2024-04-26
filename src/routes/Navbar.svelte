@@ -4,8 +4,9 @@
 	import { toggleMode } from 'mode-watcher';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
-	import { logout, user } from '$lib/firebase';
+	import { logout } from '$lib/firebase';
 	import { page } from '$app/stores';
+	import { user } from '../stores/auth';
 </script>
 
 <header class="w-screen">

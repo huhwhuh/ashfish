@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { user } from '$lib/firebase';
 	import CircleAlert from 'lucide-svelte/icons/circle-alert';
 	import * as Alert from '$lib/components/ui/alert/index.js';
+	import { user } from '../../../stores/auth';
 </script>
 
 {#if $user}

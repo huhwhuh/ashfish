@@ -25,6 +25,18 @@ services:
     environment:
       - FIREBASE_AUTH_EMULATOR_HOST=firebase:9099
     tty: true
+  test-integ:
+    depends_on: [firebase]
+    build:
+      context: .
+      dockerfile: ./docker/test/Dockerfile
+      target: test
+    command: npm run test:integ
+    environment:
+      - FIREBASE_AUTH_EMULATOR_HOST=firebase:9099
+    env_file:
+      - .env
+    tty: true
   test-watch:
     depends_on: [firebase]
     build:

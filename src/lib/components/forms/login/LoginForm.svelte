@@ -8,11 +8,11 @@
 	import { loginSchema, type LoginSchema } from './schema';
 	import { zodClient } from 'sveltekit-superforms/adapters';
 	import { getIdToken, signInWithEmailAndPassword } from 'firebase/auth';
-	import { clientAuth } from '$lib/firebase';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { CircleAlert } from 'lucide-svelte';
 	import { FirebaseError } from 'firebase/app';
 	import { setSessionCookieByIDToken } from '$lib/authutils';
+	import { initFirebase } from '$lib/firebase';
 
 	export let ref: string = '/';
 	export let message: string;
@@ -26,12 +26,15 @@
 			}
 			const { email, password } = form.data;
 			try {
+				const { clientAuth } = initFirebase();
 				const credential = await signInWithEmailAndPassword(clientAuth, email, password);
 				const idToken = await getIdToken(credential.user, true);
 				const res = await setSessionCookieByIDToken(idToken);
+
 				if (!res.ok) {
 					throw res.body;
 				}
+				await invalidateAll();
 				await goto(`/${ref.slice(1)}`);
 			} catch (err) {
 				if (err instanceof FirebaseError) {
@@ -40,8 +43,10 @@
 					} else {
 						setError(form, 'password', err.message);
 					}
-				} else if (err instanceof String) {
+				} else if (typeof err === 'string') {
 					setError(form, 'password', err);
+				} else {
+					throw err;
 				}
 			}
 		}
