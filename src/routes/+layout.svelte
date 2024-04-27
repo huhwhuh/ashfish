@@ -4,7 +4,7 @@
 	import { ModeWatcher } from 'mode-watcher';
 	import { initFirebase } from '$lib/firebase';
 	import { onMount } from 'svelte';
-	import { user } from '../stores/auth';
+	import { user } from '$lib/stores/auth';
 
 	onMount(initFirebase);
 </script>

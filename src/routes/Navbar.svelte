@@ -6,7 +6,7 @@
 	import { Separator } from '$lib/components/ui/separator';
 	import { logout } from '$lib/firebase';
 	import { page } from '$app/stores';
-	import { user } from '../stores/auth';
+	import { user } from '$lib/stores/auth';
 </script>
 
 <header class="w-screen">
