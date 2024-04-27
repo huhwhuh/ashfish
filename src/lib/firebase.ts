@@ -2,9 +2,9 @@
 import { initializeApp } from 'firebase/app';
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
 import {
-	browserLocalPersistence,
 	connectAuthEmulator,
 	getAuth,
+	inMemoryPersistence,
 	setPersistence,
 	signOut
 } from 'firebase/auth';
@@ -37,7 +37,7 @@ export const initFirebase = memoize(() => {
 	const clientStorage = getStorage();
 	connectAuthEmulator(clientAuth, 'http://localhost:9099');
 	connectFirestoreEmulator(clientDB, 'localhost', 8080);
-	setPersistence(clientAuth, browserLocalPersistence).then(() => {});
+	setPersistence(clientAuth, inMemoryPersistence).then(() => {});
 	return { clientApp, clientAuth, clientDB, clientStorage };
 });
 

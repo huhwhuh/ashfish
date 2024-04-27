@@ -13,6 +13,7 @@ export const handle = (async ({ event, resolve }) => {
 	} catch (e) {
 		console.log('unauthenticated user trying to access', event.url.href);
 		event.locals.user = null;
+		event.cookies.delete('__session', { path: '/' });
 		return resolve(event);
 	}
 
