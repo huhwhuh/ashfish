@@ -5,6 +5,7 @@ test.describe('Navbar', () => {
 	test.describe('Authenticated', () => {
 		test.beforeEach(async ({ page }) => {
 			await page.goto('');
+			await expect(page.getByText('Running in emulator mode. Do')).toBeVisible();
 		});
 		test('Logout visible', async ({ page }) => {
 			await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();

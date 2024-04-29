@@ -4,9 +4,8 @@
 	import { toggleMode } from 'mode-watcher';
 	import { Button } from '$lib/components/ui/button';
 	import { Separator } from '$lib/components/ui/separator';
-	import { logout } from '$lib/firebase';
 	import { page } from '$app/stores';
-	import { user } from '$lib/stores/auth';
+	import LoginLogout from '$lib/components/auth/LoginLogout.svelte';
 </script>
 
 <header class="w-screen">
@@ -24,11 +23,7 @@
 				</Button>
 			</li>
 			<li>
-				{#if $user}
-					<Button on:click={async () => await logout()} variant="outline">Logout</Button>
-				{:else}
-					<Button href="/login" variant="outline" data-sveltekit-preload-data="hover">Login</Button>
-				{/if}
+				<LoginLogout />
 			</li>
 		</ul>
 		<Separator orientation="vertical" class="h-8" />

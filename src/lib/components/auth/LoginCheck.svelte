@@ -5,7 +5,7 @@
 </script>
 
 {#if $user}
-	<slot />
+	<slot id="slot" />
 {:else}
 	<Alert.Root variant="destructive">
 		<CircleAlert class="h-4 w-4" />

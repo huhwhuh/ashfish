@@ -1,7 +1,7 @@
 import { derived } from 'svelte/store';
 import { page } from '$app/stores';
 
-type User = {
+export type User = {
 	name: string;
 	uid: string;
 	email: string;

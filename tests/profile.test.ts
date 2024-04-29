@@ -5,6 +5,7 @@ test.describe('Profile', () => {
 	test.describe('Authenticated', () => {
 		test.beforeEach(async ({ page }) => {
 			await page.goto('/profile');
+			await expect(page.getByText('Running in emulator mode. Do')).toBeVisible();
 		});
 
 		test('should see profile content', async ({ page }) => {

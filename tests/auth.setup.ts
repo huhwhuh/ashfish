@@ -16,8 +16,6 @@ setup('authenticate as user', async ({ page }) => {
 	await page.getByLabel('Password').fill('test1234');
 	await page.getByRole('button', { name: 'Login' }).click();
 	await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
-	await page.goto('/profile');
-	await expect(page.getByRole('main')).toContainText('Protected profile area!');
 	// await page.waitForURL('/profile');
 	await page.context().storageState({ path: USER_AUTH_PATH });
 });

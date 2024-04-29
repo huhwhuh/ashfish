@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Navbar from './Navbar.svelte';
+	import Navbar from '$lib/components/Navbar.svelte';
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
 	import { initFirebase } from '$lib/firebase';
