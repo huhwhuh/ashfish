@@ -1,4 +1,4 @@
-import { expect, test as setup } from '@playwright/test';
+import { expect, test as setup } from './baseFixtures';
 import { USER_AUTH_PATH } from '../playwright.config';
 import * as fs from 'fs';
 

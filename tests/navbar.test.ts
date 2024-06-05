@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './baseFixtures';
 import { NO_AUTH_STATE } from '../playwright.config';
 
 test.describe('Navbar', () => {
